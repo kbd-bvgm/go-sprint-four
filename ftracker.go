@@ -1,5 +1,7 @@
 package ftracker
 
+import "math"
+
 // Основные константы, необходимые для расчетов.
 const (
 	lenStep   = 0.65  // средняя длина шага.
@@ -96,8 +98,9 @@ const (
 // weight float64 — вес пользователя.
 // height float64 — рост пользователя.
 func WalkingSpentCalories(action int, duration, weight, height float64) float64 {
-	// ваш код здесь
-	return 0
+	avSpeed := math.Pow(meanSpeed(action, duration), 2)
+	return (walkingCaloriesWeightMultiplier*weight + (avSpeed/height)*walkingSpeedHeightMultiplier*weight) * duration * minInH
+
 }
 
 // Константы для расчета калорий, расходуемых при плавании.
@@ -129,8 +132,8 @@ func swimmingMeanSpeed(lengthPool, countPool int, duration float64) float64 {
 // countPool int — сколько раз пользователь переплыл бассейн.
 // duration float64 — длительность тренировки в часах.
 // weight float64 — вес пользователя.
-func SwimmingSpentCalories(lenghtPool, countPool int, duration, weight float64) float64 {
+func SwimmingSpentCalories(lengthPool, countPool int, duration, weight float64) float64 {
 	// ваш код здесь
-	swimSpeed := swimmingMeanSpeed(lenghtPool, countPool, duration)
+	swimSpeed := swimmingMeanSpeed(lengthPool, countPool, duration)
 	return (swimSpeed + swimmingCaloriesMeanSpeedShift) * swimmingCaloriesWeightMultiplier * weight * duration
 }
